@@ -100,6 +100,24 @@ img { max-width: 100%; display: block; }
 	box-shadow: 0 0 24px var(--accent-dim);
 }
 
+.btn--ghost {
+	background: transparent;
+	color: var(--text);
+	border-color: rgba(230, 232, 227, 0.25);
+}
+
+.btn--ghost:hover {
+	background: var(--text);
+	color: var(--bg);
+	box-shadow: none;
+}
+
+.hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
 .tag {
 	display: inline-block;
 	font-family: var(--font-mono);
@@ -380,6 +398,42 @@ img { max-width: 100%; display: block; }
 .project-desc p { margin-bottom: 14px; max-width: 760px; }
 
 .project-links { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* ---------- about ---------- */
+
+.about-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+	gap: 48px;
+	align-items: start;
+}
+
+.about-bio p { margin-bottom: 16px; max-width: 640px; }
+
+.about-bio .hero-actions { margin-top: 28px; }
+
+.about-skills {
+	background: var(--bg-raise);
+	border: 1px solid var(--line);
+	clip-path: var(--clip-card);
+	padding: 24px 26px 28px;
+}
+
+.skill-list { margin-top: 14px; }
+
+.skill-list dt {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	letter-spacing: 0.16em;
+	color: var(--accent);
+	margin-top: 16px;
+}
+
+.skill-list dd { color: var(--muted); margin-top: 2px; }
+
+@media (max-width: 820px) {
+	.about-layout { grid-template-columns: 1fr; }
+}
 
 /* ---------- video embed ---------- */
 

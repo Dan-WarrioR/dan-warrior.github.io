@@ -2,6 +2,7 @@ import { loadProjects, getProject } from "./data.js";
 import { scrambleAll } from "./effects.js";
 
 const FEATURED_PROJECT_COUNT = 3;
+const CV_URL = "assets/cv/Danylo_Norkin_CV.pdf";
 const YOUTUBE_ID_PATTERN = /(?:youtube(?:-nocookie)?\.com\/(?:watch\?.*v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,20})/;
 
 function escapeHtml(value) {
@@ -62,7 +63,10 @@ export async function renderHome(container) {
 				<p class="hud-label hud-label--accent">// UNITY_&amp;_UNREAL_DEVELOPER</p>
 				<h1 class="glitch glitch--auto" data-text="DANYLO NORKIN"><span data-scramble>DANYLO NORKIN</span></h1>
 				<p class="hero-sub">I build games and interactive experiences with Unity and Unreal Engine — from gameplay systems and tools to full playable prototypes.</p>
-				<a class="btn" href="#/projects">VIEW PROJECTS</a>
+				<div class="hero-actions">
+					<a class="btn" href="#/projects">VIEW PROJECTS</a>
+					<a class="btn btn--ghost" href="${CV_URL}" download>DOWNLOAD_CV</a>
+				</div>
 			</section>
 			<hr class="rule">
 			<section>
@@ -186,6 +190,35 @@ export async function renderProject(container, slug) {
 	if (screenshots.length) {
 		initCarousel(container.querySelector("#carousel"), screenshots, project.title);
 	}
+}
+
+export function renderAbout(container) {
+	container.innerHTML = `
+		<div class="view">
+			<p class="hud-label hud-label--accent">// PERSONNEL_FILE</p>
+			<h1 class="view-title glitch" data-text="ABOUT"><span data-scramble>ABOUT</span></h1>
+			<div class="about-layout">
+				<section class="about-bio">
+					<p>I'm Danylo Norkin, a game developer working with Unity and Unreal Engine. I focus on gameplay programming — the systems, mechanics and tools that make a game feel good to play.</p>
+					<p>I've shipped team projects like <a href="#/project/post-office-unity">Post-Office</a>, a survival horror built with Unity, and I'm always prototyping something new. I enjoy taking a game from an empty scene to a playable, polished build.</p>
+					<p>Open to game development opportunities — reach out via any channel in the footer.</p>
+					<div class="hero-actions">
+						<a class="btn" href="${CV_URL}" download>DOWNLOAD_CV</a>
+						<a class="btn btn--ghost" href="mailto:norkindanylo@gmail.com">CONTACT_ME</a>
+					</div>
+				</section>
+				<section class="about-skills">
+					<p class="hud-label">// SKILL_MATRIX</p>
+					<dl class="skill-list">
+						<dt>ENGINES</dt><dd>Unity, Unreal Engine 5</dd>
+						<dt>LANGUAGES</dt><dd>C#, C++, Blueprints</dd>
+						<dt>FOCUS</dt><dd>Gameplay systems, game AI, UI, tools</dd>
+						<dt>WORKFLOW</dt><dd>Git, code review, team projects</dd>
+					</dl>
+				</section>
+			</div>
+		</div>`;
+	scrambleAll(container);
 }
 
 export function renderNotFound(container) {

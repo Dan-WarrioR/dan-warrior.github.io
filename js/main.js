@@ -1,4 +1,4 @@
-import { renderHome, renderProjects, renderProject, renderNotFound } from "./views.js";
+import { renderHome, renderProjects, renderProject, renderAbout, renderNotFound } from "./views.js";
 
 const appContainer = document.getElementById("app");
 
@@ -11,6 +11,9 @@ function parseRoute() {
 	}
 	if (segments[0] === "projects") {
 		return { name: "projects" };
+	}
+	if (segments[0] === "about") {
+		return { name: "about" };
 	}
 	if (segments[0] === "project" && segments[1]) {
 		return { name: "project", slug: decodeURIComponent(segments[1]) };
@@ -36,6 +39,9 @@ async function render() {
 			break;
 		case "projects":
 			await renderProjects(appContainer);
+			break;
+		case "about":
+			renderAbout(appContainer);
 			break;
 		case "project":
 			await renderProject(appContainer, route.slug);
