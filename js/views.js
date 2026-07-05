@@ -227,16 +227,21 @@ export function renderAbout(container) {
 					</div>
 				</section>
 				<section class="about-skills">
-					<p class="hud-label">// SKILL_MATRIX</p>
+					<p class="hud-label">// TECH_SKILLS_&amp;_TOOLS</p>
 					<dl class="skill-list">
-						<dt>UNITY</dt><dd>C#, DOTS (ECS, Job System), UI, AI (Behavior Trees, FSM, NavMesh), Animation, Timeline, Shaders, Localization, FMOD</dd>
-						<dt>FRAMEWORKS</dt><dd>Zenject, Reflex, UniTask, Odin Inspector</dd>
-						<dt>ENGINEERING</dt><dd>OOP, SOLID, design patterns, async programming</dd>
-						<dt>PRACTICES</dt><dd>Debugging, optimization, rapid prototyping, refactoring, production game support</dd>
+						<dt>UNITY_DEVELOPMENT</dt><dd>C#, DOTS, Unity (UI, AI, Animation, Timeline, Shaders, Localization, NavMesh, UniTask, FMOD, Behavior Trees, Odin Inspector, Zenject, Reflex)</dd>
+						<dt>PROGRAMMING_PARADIGMS</dt><dd>OOP, SOLID, Design Patterns, ECS, Job System, Async programming</dd>
+						<dt>DEVELOPMENT_PRACTICES</dt><dd>Debugging, Optimization, Rapid Prototyping, Code Refactoring, Production Game Support</dd>
 						<dt>BACKEND_&amp;_SCRIPTING</dt><dd>.NET, Lua</dd>
 						<dt>TOOLS</dt><dd>Git, Rider, Visual Studio</dd>
-						<dt>TEAMWORK</dt><dd>Team leadership, Agile/Scrum, code reviews</dd>
-						<dt>LANGUAGES</dt><dd>Ukrainian &amp; Russian (native), English &amp; Polish (intermediate)</dd>
+					</dl>
+					<p class="hud-label skill-list-heading">// PROFESSIONAL_SKILLS</p>
+					<dl class="skill-list">
+						<dt>GAME_DEVELOPMENT</dt><dd>Gameplay architecture, NPC AI, Dialogue systems, UI/UX Design, Feature Development</dd>
+						<dt>ALGORITHMS</dt><dd>FSM, HSM, Behavior Trees, Data Structures</dd>
+						<dt>SOFT_SKILLS</dt><dd>Team Leadership, Team Collaboration, Agile/Scrum, Code Reviews</dd>
+						<dt>PROBLEM_SOLVING</dt><dd>Debugging complex systems, edge-case handling, performance optimization</dd>
+						<dt>LANGUAGES</dt><dd>Ukrainian (native), Russian (native), English (intermediate), Polish (intermediate)</dd>
 					</dl>
 				</section>
 			</div>
@@ -287,6 +292,23 @@ function initVideoFrame(container) {
 
 /* ---------- screenshot carousel + lightbox ---------- */
 
+/**
+ * Plays the glitch animation once the image is actually decoded — starting it
+ * while the file is still downloading would finish invisibly before paint.
+ */
+function glitchOnLoad(image) {
+	const play = () => {
+		image.classList.remove("glitch-swap");
+		void image.offsetWidth;
+		image.classList.add("glitch-swap");
+	};
+	if (image.complete && image.naturalWidth > 0) {
+		play();
+	} else {
+		image.addEventListener("load", play, { once: true });
+	}
+}
+
 function initCarousel(carousel, screenshots, projectTitle) {
 	const viewport = carousel.querySelector(".carousel-viewport");
 	const status = carousel.querySelector(".carousel-status");
@@ -294,9 +316,13 @@ function initCarousel(carousel, screenshots, projectTitle) {
 
 	function show(index) {
 		currentIndex = (index + screenshots.length) % screenshots.length;
-		viewport.innerHTML = `<img class="glitch-swap" src="${escapeAttr(screenshots[currentIndex])}" alt="${escapeAttr(projectTitle)} screenshot ${currentIndex + 1}">`;
+		const image = document.createElement("img");
+		image.alt = `${projectTitle} screenshot ${currentIndex + 1}`;
+		image.src = screenshots[currentIndex];
+		image.addEventListener("click", () => openLightbox(screenshots[currentIndex], projectTitle));
+		glitchOnLoad(image);
+		viewport.replaceChildren(image);
 		status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(screenshots.length).padStart(2, "0")}`;
-		viewport.querySelector("img").addEventListener("click", () => openLightbox(screenshots[currentIndex], projectTitle));
 	}
 
 	carousel.querySelector(".carousel-btn--prev").addEventListener("click", () => show(currentIndex - 1));
@@ -324,8 +350,9 @@ function openLightbox(src, projectTitle) {
 	const lightbox = document.createElement("div");
 	lightbox.className = "lightbox";
 	lightbox.innerHTML = `
-		<img class="glitch-swap" src="${escapeAttr(src)}" alt="${escapeAttr(projectTitle)} screenshot, full size">
+		<img src="${escapeAttr(src)}" alt="${escapeAttr(projectTitle)} screenshot, full size">
 		<button class="lightbox-close" type="button" aria-label="Close">[ CLOSE ]</button>`;
+	glitchOnLoad(lightbox.querySelector("img"));
 
 	function close() {
 		lightbox.remove();
