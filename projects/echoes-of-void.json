@@ -1,0 +1,15 @@
+{
+	"title": "Echoes of Void",
+	"engine": "Unreal Engine",
+	"tags": ["Horror", "Blueprints", "C++"],
+	"shortDescription": "Atmospheric first-person horror exploration prototype. (Demo project — replace with your own.)",
+	"description": "Second DEMO project entry — this one has no video, so the video section is hidden automatically.\nUse it as a template for projects where you only have screenshots.",
+	"cover": "assets/echoes-of-void/cover.svg",
+	"screenshots": [
+		"assets/echoes-of-void/screenshot-01.svg",
+		"assets/echoes-of-void/screenshot-02.svg"
+	],
+	"links": [
+		{ "label": "GitHub Repo", "url": "https://github.com/Dan-WarrioR" }
+	]
+}
