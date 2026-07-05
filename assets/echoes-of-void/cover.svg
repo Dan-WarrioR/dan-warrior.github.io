@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
   <rect width="1280" height="720" fill="#0b0d0e"/>
-  <g stroke="#9ffd32" stroke-opacity="0.08">
+  <g stroke="#3ee6ff" stroke-opacity="0.08">
     <line x1="0" y1="0" x2="0" y2="720"/>
 <line x1="64" y1="0" x2="64" y2="720"/>
 <line x1="128" y1="0" x2="128" y2="720"/>
@@ -35,7 +35,7 @@
 <line x1="0" y1="640" x2="1280" y2="640"/>
 <line x1="0" y1="704" x2="1280" y2="704"/>
   </g>
-  <rect x="40" y="40" width="1200" height="640" fill="none" stroke="#9ffd32" stroke-opacity="0.3"/>
-  <text x="640" y="345" text-anchor="middle" font-family="monospace" font-size="56" fill="#9ffd32">ECHOES_OF_VOID :: COVER</text>
-  <text x="640" y="405" text-anchor="middle" font-family="monospace" font-size="22" fill="#7f887c">// PLACEHOLDER_IMAGE — REPLACE WITH REAL SCREENSHOT</text>
+  <rect x="40" y="40" width="1200" height="640" fill="none" stroke="#3ee6ff" stroke-opacity="0.3"/>
+  <text x="640" y="345" text-anchor="middle" font-family="monospace" font-size="56" fill="#3ee6ff">ECHOES_OF_VOID :: COVER</text>
+  <text x="640" y="405" text-anchor="middle" font-family="monospace" font-size="22" fill="#7c868c">// PLACEHOLDER_IMAGE — REPLACE WITH REAL SCREENSHOT</text>
 </svg>
