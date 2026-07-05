@@ -1,6 +1,6 @@
 # How to Add a New Project
 
-Every project on the site is one JSON file in the `projects/` folder. Three steps:
+Every project on the site is one JSON file in the `projects/` folder. Two steps — the project list (`projects/index.json`) is regenerated automatically by a GitHub Action on every push:
 
 ## 1. Create the project JSON
 
@@ -8,6 +8,7 @@ Create `projects/<slug>.json`, where `<slug>` is a short lowercase id with dashe
 
 ```json
 {
+	"order": 1,
 	"title": "Space Raider",
 	"engine": "Unity",
 	"tags": ["FPS", "Multiplayer", "C#"],
@@ -31,6 +32,7 @@ Create `projects/<slug>.json`, where `<slug>` is a short lowercase id with dashe
 | Field | Required | Notes |
 |---|---|---|
 | `title` | yes | Project name shown everywhere. |
+| `order` | no | Display position (lower = first). Projects without it go last, alphabetically. First projects also appear in "Featured" on the landing page. |
 | `engine` | no | Rendered as a highlighted tag (`Unity`, `Unreal Engine`, ...). |
 | `tags` | no | Extra tags shown next to the engine. |
 | `shortDescription` | no | Shown on the project card in the grid. |
@@ -46,25 +48,16 @@ Every optional field can simply be deleted — its section will not render.
 
 Put the cover and screenshots into `assets/<slug>/`. Use JPG or PNG (or WebP for smaller size). Recommended: 1280×720 or any 16:9 resolution, under ~500 KB per image.
 
-## 3. Register the slug
+## 3. Push
 
-Open `projects/index.json` and add the slug to the array. The order here is the display order on the site — first entries also appear in "Featured" on the landing page.
-
-```json
-[
-	"space-raider",
-	"neon-breaker",
-	"echoes-of-void"
-]
-```
-
-Commit, push — done. GitHub Pages redeploys automatically in about a minute.
+Commit and push — done. A GitHub Action regenerates `projects/index.json` from the folder contents (sorted by `order`), validates every project file, and GitHub Pages redeploys automatically. Never edit `index.json` by hand; run `git pull` afterwards to get the regenerated file locally.
 
 ## Checking locally
 
-Run any static server from the repo root and open `http://localhost:4173`:
+The site reads `projects/index.json`, so after adding a project regenerate it first, then run any static server from the repo root and open `http://localhost:4173`:
 
 ```
+node .github/scripts/generate-projects-index.mjs
 py -m http.server 4173
 ```
 

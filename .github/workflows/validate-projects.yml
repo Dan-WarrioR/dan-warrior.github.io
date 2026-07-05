@@ -1,9 +1,12 @@
-name: Validate project data
+name: Validate and index projects
 
 on:
   push:
     branches: [main]
   pull_request:
+
+permissions:
+  contents: write
 
 jobs:
   validate:
@@ -13,5 +16,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Regenerate projects index
+        run: node .github/scripts/generate-projects-index.mjs
       - name: Validate project JSONs and referenced assets
         run: node .github/scripts/validate-projects.mjs
+      - name: Commit regenerated index
+        if: github.event_name == 'push'
+        run: |
+          if ! git diff --quiet projects/index.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add projects/index.json
+            git commit -m "Regenerate projects index"
+            git push
+          fi
