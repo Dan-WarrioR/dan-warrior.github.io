@@ -59,48 +59,118 @@
 	40%, 100% { clip-path: inset(50% 0 50% 0); opacity: 0; }
 }
 
-/* ---------- image glitch transition (carousel, lightbox) ---------- */
+/* ---------- image glitch transition (carousel, lightbox) ----------
+   Three stacked copies of the same image: the base jitters and
+   flickers while two color-shifted layers tear across it in thin
+   horizontal bands moving in opposite directions. */
 
-.glitch-swap {
-	animation: img-glitch 0.55s steps(1) both;
+.glitch-img { display: block; }
+
+.glitch-img img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
-@keyframes img-glitch {
+.glitch-img-layer {
+	opacity: 0;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.glitch-img-layer--r {
+	filter: saturate(4) hue-rotate(-60deg) brightness(1.35) contrast(1.2);
+	mix-blend-mode: screen;
+}
+
+.glitch-img-layer--b {
+	filter: saturate(4) hue-rotate(140deg) brightness(1.25) contrast(1.2);
+	mix-blend-mode: screen;
+}
+
+.is-glitching .glitch-img-base { animation: glitch-img-base 0.65s steps(1) both; }
+.is-glitching .glitch-img-layer--r { animation: glitch-img-r 0.65s steps(1) both; }
+.is-glitching .glitch-img-layer--b { animation: glitch-img-b 0.65s steps(1) both; }
+
+/* Band sets: each polygon is a stack of thin horizontal slices,
+   connected by zero-width bridges along the left edge. */
+@keyframes glitch-img-r {
 	0% {
-		clip-path: inset(8% 0 66% 0);
-		transform: translate(-8px, 2px);
-		filter: drop-shadow(4px 0 var(--glitch-a)) drop-shadow(-4px 0 var(--accent)) saturate(2);
+		opacity: 0.85;
+		transform: translateX(11px);
+		clip-path: polygon(0 0%, 100% 0%, 100% 6%, 0 6%, 0 18%, 100% 18%, 100% 22%, 0 22%, 0 38%, 100% 38%, 100% 44%, 0 44%, 0 66%, 100% 66%, 100% 70%, 0 70%, 0 86%, 100% 86%, 100% 92%, 0 92%);
 	}
 	15% {
-		clip-path: inset(62% 0 6% 0);
-		transform: translate(7px, -2px);
-		filter: drop-shadow(-4px 0 var(--glitch-a)) drop-shadow(4px 0 var(--accent)) saturate(2);
+		opacity: 0.85;
+		transform: translateX(-9px);
+		clip-path: polygon(0 10%, 100% 10%, 100% 16%, 0 16%, 0 30%, 100% 30%, 100% 34%, 0 34%, 0 52%, 100% 52%, 100% 60%, 0 60%, 0 78%, 100% 78%, 100% 82%, 0 82%);
 	}
 	30% {
-		clip-path: inset(30% 0 42% 0);
-		transform: translate(-5px, 0);
-		filter: drop-shadow(3px 0 var(--glitch-b)) drop-shadow(-3px 0 var(--accent)) contrast(1.4);
+		opacity: 0.85;
+		transform: translate(13px, -2px);
+		clip-path: polygon(0 4%, 100% 4%, 100% 10%, 0 10%, 0 24%, 100% 24%, 100% 28%, 0 28%, 0 46%, 100% 46%, 100% 50%, 0 50%, 0 72%, 100% 72%, 100% 80%, 0 80%, 0 94%, 100% 94%, 100% 100%, 0 100%);
 	}
 	45% {
-		clip-path: inset(78% 0 3% 0);
-		transform: translate(5px, 1px);
-		filter: drop-shadow(-3px 0 var(--glitch-a)) drop-shadow(3px 0 var(--accent)) saturate(2);
+		opacity: 0.85;
+		transform: translateX(-7px);
+		clip-path: polygon(0 0%, 100% 0%, 100% 4%, 0 4%, 0 40%, 100% 40%, 100% 46%, 0 46%, 0 62%, 100% 62%, 100% 66%, 0 66%, 0 88%, 100% 88%, 100% 94%, 0 94%);
 	}
 	60% {
-		clip-path: inset(2% 0 84% 0);
-		transform: translate(-3px, -1px);
-		filter: drop-shadow(2px 0 var(--glitch-a)) drop-shadow(-2px 0 var(--glitch-b)) contrast(1.3);
+		opacity: 0.85;
+		transform: translate(6px, 2px);
+		clip-path: polygon(0 10%, 100% 10%, 100% 16%, 0 16%, 0 30%, 100% 30%, 100% 34%, 0 34%, 0 52%, 100% 52%, 100% 60%, 0 60%, 0 78%, 100% 78%, 100% 82%, 0 82%);
 	}
 	75% {
-		clip-path: inset(44% 0 28% 0);
-		transform: translate(3px, 0);
-		filter: drop-shadow(-2px 0 var(--glitch-a)) drop-shadow(2px 0 var(--accent)) saturate(1.6);
+		opacity: 0.7;
+		transform: translateX(-4px);
+		clip-path: polygon(0 18%, 100% 18%, 100% 22%, 0 22%, 0 66%, 100% 66%, 100% 70%, 0 70%);
 	}
-	90%, 100% {
-		clip-path: none;
-		transform: none;
-		filter: none;
+	88%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes glitch-img-b {
+	0% {
+		opacity: 0.85;
+		transform: translateX(-11px);
+		clip-path: polygon(0 10%, 100% 10%, 100% 16%, 0 16%, 0 30%, 100% 30%, 100% 34%, 0 34%, 0 52%, 100% 52%, 100% 60%, 0 60%, 0 78%, 100% 78%, 100% 82%, 0 82%);
 	}
+	15% {
+		opacity: 0.85;
+		transform: translate(9px, 2px);
+		clip-path: polygon(0 0%, 100% 0%, 100% 4%, 0 4%, 0 40%, 100% 40%, 100% 46%, 0 46%, 0 62%, 100% 62%, 100% 66%, 0 66%, 0 88%, 100% 88%, 100% 94%, 0 94%);
+	}
+	30% {
+		opacity: 0.85;
+		transform: translateX(-13px);
+		clip-path: polygon(0 0%, 100% 0%, 100% 6%, 0 6%, 0 18%, 100% 18%, 100% 22%, 0 22%, 0 38%, 100% 38%, 100% 44%, 0 44%, 0 66%, 100% 66%, 100% 70%, 0 70%, 0 86%, 100% 86%, 100% 92%, 0 92%);
+	}
+	45% {
+		opacity: 0.85;
+		transform: translate(7px, -2px);
+		clip-path: polygon(0 4%, 100% 4%, 100% 10%, 0 10%, 0 24%, 100% 24%, 100% 28%, 0 28%, 0 46%, 100% 46%, 100% 50%, 0 50%, 0 72%, 100% 72%, 100% 80%, 0 80%, 0 94%, 100% 94%, 100% 100%, 0 100%);
+	}
+	60% {
+		opacity: 0.85;
+		transform: translateX(-6px);
+		clip-path: polygon(0 24%, 100% 24%, 100% 28%, 0 28%, 0 46%, 100% 46%, 100% 50%, 0 50%, 0 72%, 100% 72%, 100% 80%, 0 80%);
+	}
+	75% {
+		opacity: 0.7;
+		transform: translateX(4px);
+		clip-path: polygon(0 30%, 100% 30%, 100% 34%, 0 34%, 0 78%, 100% 78%, 100% 82%, 0 82%);
+	}
+	88%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes glitch-img-base {
+	0%  { transform: translate(-5px, 2px); filter: contrast(1.4) saturate(1.5); }
+	12% { transform: translate(4px, -2px); filter: contrast(1.2) brightness(1.15); }
+	24% { transform: translate(-3px, 0) skewX(1.5deg); filter: saturate(0.15) contrast(1.8); }
+	36% { transform: translate(2px, 6px); filter: none; }
+	48% { transform: translate(-2px, -3px); filter: brightness(1.2) hue-rotate(20deg); }
+	60%, 100% { transform: none; filter: none; }
 }
 
 /* ---------- view transition ---------- */
@@ -114,6 +184,8 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.glitch::before, .glitch::after { animation: none !important; opacity: 0 !important; }
-	.glitch-swap { animation: none; }
+	.is-glitching .glitch-img-base,
+	.is-glitching .glitch-img-layer--r,
+	.is-glitching .glitch-img-layer--b { animation: none; }
 	html { scroll-behavior: auto; }
 }

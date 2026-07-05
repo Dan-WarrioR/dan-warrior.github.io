@@ -293,20 +293,42 @@ function initVideoFrame(container) {
 /* ---------- screenshot carousel + lightbox ---------- */
 
 /**
- * Plays the glitch animation once the image is actually decoded — starting it
- * while the file is still downloading would finish invisibly before paint.
+ * Builds the three-layer glitch image: a base <img> plus two color-shifted
+ * copies used by the RGB-split animation. The animation starts only once the
+ * image is actually decoded — starting it while the file is still downloading
+ * would finish invisibly before paint.
  */
-function glitchOnLoad(image) {
+function createGlitchImage(src, altText) {
+	const figure = document.createElement("figure");
+	figure.className = "glitch-img";
+
+	const base = document.createElement("img");
+	base.className = "glitch-img-base";
+	base.alt = altText;
+	base.src = src;
+	figure.appendChild(base);
+
+	for (const layerModifier of ["glitch-img-layer--r", "glitch-img-layer--b"]) {
+		const layer = document.createElement("img");
+		layer.className = `glitch-img-layer ${layerModifier}`;
+		layer.alt = "";
+		layer.setAttribute("aria-hidden", "true");
+		layer.src = src;
+		figure.appendChild(layer);
+	}
+
 	const play = () => {
-		image.classList.remove("glitch-swap");
-		void image.offsetWidth;
-		image.classList.add("glitch-swap");
+		figure.classList.remove("is-glitching");
+		void figure.offsetWidth;
+		figure.classList.add("is-glitching");
 	};
-	if (image.complete && image.naturalWidth > 0) {
+	if (base.complete && base.naturalWidth > 0) {
 		play();
 	} else {
-		image.addEventListener("load", play, { once: true });
+		base.addEventListener("load", play, { once: true });
 	}
+
+	return figure;
 }
 
 function initCarousel(carousel, screenshots, projectTitle) {
@@ -316,12 +338,9 @@ function initCarousel(carousel, screenshots, projectTitle) {
 
 	function show(index) {
 		currentIndex = (index + screenshots.length) % screenshots.length;
-		const image = document.createElement("img");
-		image.alt = `${projectTitle} screenshot ${currentIndex + 1}`;
-		image.src = screenshots[currentIndex];
-		image.addEventListener("click", () => openLightbox(screenshots[currentIndex], projectTitle));
-		glitchOnLoad(image);
-		viewport.replaceChildren(image);
+		const figure = createGlitchImage(screenshots[currentIndex], `${projectTitle} screenshot ${currentIndex + 1}`);
+		figure.addEventListener("click", () => openLightbox(screenshots[currentIndex], projectTitle));
+		viewport.replaceChildren(figure);
 		status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(screenshots.length).padStart(2, "0")}`;
 	}
 
@@ -349,10 +368,13 @@ function initCarousel(carousel, screenshots, projectTitle) {
 function openLightbox(src, projectTitle) {
 	const lightbox = document.createElement("div");
 	lightbox.className = "lightbox";
-	lightbox.innerHTML = `
-		<img src="${escapeAttr(src)}" alt="${escapeAttr(projectTitle)} screenshot, full size">
-		<button class="lightbox-close" type="button" aria-label="Close">[ CLOSE ]</button>`;
-	glitchOnLoad(lightbox.querySelector("img"));
+	const figure = createGlitchImage(src, `${projectTitle} screenshot, full size`);
+	const closeButton = document.createElement("button");
+	closeButton.className = "lightbox-close";
+	closeButton.type = "button";
+	closeButton.setAttribute("aria-label", "Close");
+	closeButton.textContent = "[ CLOSE ]";
+	lightbox.append(figure, closeButton);
 
 	function close() {
 		lightbox.remove();
@@ -365,11 +387,7 @@ function openLightbox(src, projectTitle) {
 		}
 	}
 
-	lightbox.addEventListener("click", (event) => {
-		if (event.target === lightbox || event.target.closest(".lightbox-close")) {
-			close();
-		}
-	});
+	lightbox.addEventListener("click", close);
 	document.addEventListener("keydown", onKeyDown);
 	document.body.appendChild(lightbox);
 }
