@@ -1,18 +1,19 @@
 {
-	"title": "Neon Breaker",
+	"title": "Post-Office",
 	"engine": "Unity",
-	"tags": ["Arcade", "C#", "Solo Project"],
+	"tags": ["Horror", "Action"],
 	"shortDescription": "Fast-paced arcade brick breaker with physics-driven power-ups. (Demo project — replace with your own.)",
 	"description": "This is a DEMO project entry showing every supported field. Replace this file with a real project, or delete it and remove its slug from projects/index.json.\nThe description supports multiple paragraphs — separate them with a newline (\\n) in the JSON string.\nAll fields except \"title\" are optional: if you omit \"video\", the video section simply doesn't render, and the same goes for \"screenshots\", \"links\", \"tags\" and the rest.",
-	"cover": "assets/neon-breaker/cover.svg",
-	"video": "https://www.youtube.com/watch?v=REPLACE_ME",
+	"cover": "assets/post-office-unity/cover.jpg",
+	"video": "https://www.youtube.com/watch?v=q-TqxfHEFsQ",
 	"screenshots": [
-		"assets/neon-breaker/screenshot-01.svg",
-		"assets/neon-breaker/screenshot-02.svg",
-		"assets/neon-breaker/screenshot-03.svg"
+		"assets/post-office-unity/screenshot-01.jpg",
+		"assets/post-office-unity/screenshot-02.jpg",
+		"assets/post-office-unity/screenshot-03.jpg",
+		"assets/post-office-unity/screenshot-04.jpg"
 	],
 	"links": [
-		{ "label": "GitHub Repo", "url": "https://github.com/Dan-WarrioR" },
-		{ "label": "Play on itch.io", "url": "https://itch.io" }
+		{ "label": "GitHub Repo", "url": "https://github.com/Dan-WarrioR/Post-Office" },
+		{ "label": "GameJolt", "url": "https://gamejolt.com/games/Post-Office/892727" }
 	]
 }
