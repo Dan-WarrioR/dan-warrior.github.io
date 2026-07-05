@@ -60,9 +60,9 @@ export async function renderHome(container) {
 	container.innerHTML = `
 		<div class="view">
 			<section class="hero">
-				<p class="hud-label hud-label--accent">// UNITY_&amp;_UNREAL_DEVELOPER</p>
+				<p class="hud-label hud-label--accent">// UNITY_GAME_DEVELOPER</p>
 				<h1 class="glitch glitch--auto" data-text="DANYLO NORKIN"><span data-scramble>DANYLO NORKIN</span></h1>
-				<p class="hero-sub">I build games and interactive experiences with Unity and Unreal Engine — from gameplay systems and tools to full playable prototypes.</p>
+				<p class="hero-sub">I build gameplay that survives production — NPC AI, game systems and UI for shipped commercial titles, from the VR horror Echoes of the Sun to live development on Hero Realms.</p>
 				<div class="hero-actions">
 					<a class="btn" href="#/projects">VIEW PROJECTS</a>
 					<a class="btn btn--ghost" href="${CV_URL}" download>DOWNLOAD_CV</a>
@@ -199,21 +199,44 @@ export function renderAbout(container) {
 			<h1 class="view-title glitch" data-text="ABOUT"><span data-scramble>ABOUT</span></h1>
 			<div class="about-layout">
 				<section class="about-bio">
-					<p>I'm Danylo Norkin, a game developer working with Unity and Unreal Engine. I focus on gameplay programming — the systems, mechanics and tools that make a game feel good to play.</p>
-					<p>I've shipped team projects like <a href="#/project/post-office-unity">Post-Office</a>, a survival horror built with Unity, and I'm always prototyping something new. I enjoy taking a game from an empty scene to a playable, polished build.</p>
+					<p>I'm Danylo Norkin, a Unity developer currently at Storymode, where I support and develop Hero Realms — implementing new gameplay features, investigating and fixing production bugs, and improving existing systems in a live production environment.</p>
+					<p>Before that I worked on Echoes of the Sun, a commercial VR project: ghost NPC AI built on Behavior Trees, a modular NPC animation system with Timeline integration, interactive dialogue logic, and the game's modular UI and settings architecture.</p>
+					<p>I got into game development by leading a small team on <a href="#/project/post-office-unity">Post-Office</a>, a first-person horror game, and I never stopped prototyping — most recently high-performance experiments with Unity DOTS and ECS. Alongside work I'm studying Software Engineering in Krakow.</p>
 					<p>Open to game development opportunities — reach out via any channel in the footer.</p>
 					<div class="hero-actions">
 						<a class="btn" href="${CV_URL}" download>DOWNLOAD_CV</a>
 						<a class="btn btn--ghost" href="mailto:norkindanylo@gmail.com">CONTACT_ME</a>
 					</div>
+					<div class="about-timeline">
+						<p class="hud-label">// SERVICE_RECORD</p>
+						<div class="timeline-entry" style="margin-top:18px">
+							<span class="timeline-date">2025 — PRESENT</span>
+							<h3>Storymode — Hero Realms</h3>
+							<p>Live production: new gameplay features, bug investigation and fixes, system improvements, code quality.</p>
+						</div>
+						<div class="timeline-entry">
+							<span class="timeline-date">2024 — 2025</span>
+							<h3>Echoes of the Sun (VR)</h3>
+							<p>NPC AI with Behavior Trees, modular animation and dialogue systems, UI architecture and persistent settings.</p>
+						</div>
+						<div class="timeline-entry">
+							<span class="timeline-date">2023 — 2024</span>
+							<h3>Post-Office</h3>
+							<p>Team lead on a first-person horror game: Zenject architecture, inventory, quest and random event systems, full UI.</p>
+						</div>
+					</div>
 				</section>
 				<section class="about-skills">
 					<p class="hud-label">// SKILL_MATRIX</p>
 					<dl class="skill-list">
-						<dt>ENGINES</dt><dd>Unity, Unreal Engine 5</dd>
-						<dt>LANGUAGES</dt><dd>C#, C++, Blueprints</dd>
-						<dt>FOCUS</dt><dd>Gameplay systems, game AI, UI, tools</dd>
-						<dt>WORKFLOW</dt><dd>Git, code review, team projects</dd>
+						<dt>UNITY</dt><dd>C#, DOTS (ECS, Job System), UI, AI (Behavior Trees, FSM, NavMesh), Animation, Timeline, Shaders, Localization, FMOD</dd>
+						<dt>FRAMEWORKS</dt><dd>Zenject, Reflex, UniTask, Odin Inspector</dd>
+						<dt>ENGINEERING</dt><dd>OOP, SOLID, design patterns, async programming</dd>
+						<dt>PRACTICES</dt><dd>Debugging, optimization, rapid prototyping, refactoring, production game support</dd>
+						<dt>BACKEND_&amp;_SCRIPTING</dt><dd>.NET, Lua</dd>
+						<dt>TOOLS</dt><dd>Git, Rider, Visual Studio</dd>
+						<dt>TEAMWORK</dt><dd>Team leadership, Agile/Scrum, code reviews</dd>
+						<dt>LANGUAGES</dt><dd>Ukrainian &amp; Russian (native), English &amp; Polish (intermediate)</dd>
 					</dl>
 				</section>
 			</div>
@@ -271,7 +294,7 @@ function initCarousel(carousel, screenshots, projectTitle) {
 
 	function show(index) {
 		currentIndex = (index + screenshots.length) % screenshots.length;
-		viewport.innerHTML = `<img src="${escapeAttr(screenshots[currentIndex])}" alt="${escapeAttr(projectTitle)} screenshot ${currentIndex + 1}">`;
+		viewport.innerHTML = `<img class="glitch-swap" src="${escapeAttr(screenshots[currentIndex])}" alt="${escapeAttr(projectTitle)} screenshot ${currentIndex + 1}">`;
 		status.textContent = `${String(currentIndex + 1).padStart(2, "0")} / ${String(screenshots.length).padStart(2, "0")}`;
 		viewport.querySelector("img").addEventListener("click", () => openLightbox(screenshots[currentIndex], projectTitle));
 	}
@@ -301,7 +324,7 @@ function openLightbox(src, projectTitle) {
 	const lightbox = document.createElement("div");
 	lightbox.className = "lightbox";
 	lightbox.innerHTML = `
-		<img src="${escapeAttr(src)}" alt="${escapeAttr(projectTitle)} screenshot, full size">
+		<img class="glitch-swap" src="${escapeAttr(src)}" alt="${escapeAttr(projectTitle)} screenshot, full size">
 		<button class="lightbox-close" type="button" aria-label="Close">[ CLOSE ]</button>`;
 
 	function close() {
